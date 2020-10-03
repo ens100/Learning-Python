@@ -1,3 +1,6 @@
+# enter grades for subjects and then return the average
+# ask the user to select a subject and change the grade
+
 def main():
     
     english_grade = int(input("Enter English Grade: "))
@@ -15,12 +18,18 @@ def main():
         "Music": music_grade
             }
 
-    count = len(grades)
-    points = sum(grades.values())
-    average = float(points / count)
+    average = float(sum(grades.values()) / len(grades))
   
 
     print(grades)
     print("Your average is: ", average)
+
+    new_grade_subject = input("Which grade would you like to change? ")
+    new_grade = int(input("What is the new grade? "))
+
+    grades[new_grade_subject] = new_grade
+    average = float(sum(grades.values()) / len(grades))
+
+    print("Your new average is: ", average)
     
 main()
