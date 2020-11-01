@@ -15,7 +15,7 @@ while True: #Keep the game running TODO: give the user an easy out.
     user_choice = (choice[user])
     comp_choice = (choice[randint(1,3)])
 
-    print("---User: " + user_choice + " vs Comp: " + comp_choice)  
+    print("---User: {} vs Comp: {}". format(user_choice, comp_choice))
     
     # Go through the cycle of win, lose or draw:
     if user_choice == "Rock" and comp_choice == "Scissors":
@@ -40,7 +40,7 @@ while True: #Keep the game running TODO: give the user an easy out.
         print("---DRAW---")
     
     # print out KPI of games (score, count)
-    print("User: " + str(user_score) + " - Comp: " + str(comp_score)) 
+    print("User: {} - Comp {}" .format(str(user_score), str(comp_score)))
     print("Games: " + str(count_games))
     
     count_games += 1
