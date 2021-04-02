@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
 import csv
+import time
 
 PATH = "/home/ed/Documents/python/chromedriver" # location of the webdriver - amend as requried
 
@@ -20,7 +21,15 @@ members = driver.find_elements_by_class_name("projectImage") # Looking for the r
 
 for member in members:
     print(member.text) # to see that loop went to next iteration
-    member.click()
+
+#they have the onclick script which basically triggers the JS and renders the pop-up. You can make use of it. You can find the onclick script in the child element img. So your logic should be like (1)Get the child element (2)go to first child element (which is img always for your case) (3)Get the onclick script text (4)execute the script#
+    
+    # member.find_element_by_xpath('//*[@class="projectImage"]').click()
+    child_elems = member.find_elements_by_css_selector("*") #Get the child elems
+    onclick_script = child_elems[0].get_attribute('onclick')#Get the img's onclick value
+    driver.execute_script(onclick_script)                   #Execute the JS
+    time.sleep(2)                                           #Wait for some time
+    
     wait = WebDriverWait(driver, 10)
     element = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, 'VIEW FULL PROFILE'))) #wait for the element to appear before moving on to avoid crash
     links = driver.find_element_by_partial_link_text("VIEW FULL PROFILE")
