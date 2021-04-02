@@ -36,20 +36,21 @@ for member in members:
     href = links.get_attribute("href")
     member_list.append(href)
     member.find_element_by_xpath("/html/body/div[5]/div[1]/button").click()
-    driver.implicitly_wait(4)
 
-print(member_list)
+driver.quit()
+
+df_list = []
 
 # Loop through the links to extract the sought information
 
-with open("member_data.csv", "a+") as csv_file:
-    writer = csv.writer(csv_file)
+for member in member_list:
+    table = pd.read_html(member, index_col = None, header=None)
+    df = table[0]
+    df = df.T
+    df_list.append(df)
+    print("ok")
 
-    for member in member_list:
-        df = pd.read_html(member)
-        print(df)
-        writer.writerow(df)
-
-#! Issue - does not append as CSV so cannot convert to DF - to review.
-
-driver.quit()
+dfmaster = pd.concat(df_list, sort=False)
+dfmaster = dfmaster.drop_duplicates()
+dfmaster.to_csv('member_data1.csv')
+print(dfmaster)
