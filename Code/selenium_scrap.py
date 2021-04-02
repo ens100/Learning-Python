@@ -28,7 +28,7 @@ for member in members:
     child_elems = member.find_elements_by_css_selector("*") #Get the child elems
     onclick_script = child_elems[0].get_attribute('onclick')#Get the img's onclick value
     driver.execute_script(onclick_script)                   #Execute the JS
-    time.sleep(2)                                           #Wait for some time
+    time.sleep(1)                                           #Wait for some time
     
     wait = WebDriverWait(driver, 10)
     element = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, 'VIEW FULL PROFILE'))) #wait for the element to appear before moving on to avoid crash
@@ -39,18 +39,17 @@ for member in members:
 
 driver.quit()
 
-df_list = []
-
 # Loop through the links to extract the sought information
+df_list = []
 
 for member in member_list:
     table = pd.read_html(member, index_col = None, header=None)
     df = table[0]
-    df = df.T
+    df = df.T # Transposes the data
     df_list.append(df)
-    print("ok")
+    print("ok " + member)
 
 dfmaster = pd.concat(df_list, sort=False)
 dfmaster = dfmaster.drop_duplicates()
-dfmaster.to_csv('member_data1.csv')
+dfmaster.to_csv('member_data.csv')
 print(dfmaster)
